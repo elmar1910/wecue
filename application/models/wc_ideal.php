@@ -6,7 +6,12 @@
             parent::__construct();
         }
         
-        function start_pay( $data = array() )
+        function start_payment( $data = array() )
+        {
+            
+        }
+        
+        function check_payment( $trx_id )
         {
             
         }
