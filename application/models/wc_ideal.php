@@ -1,5 +1,5 @@
 <?php
-    class wc_ideal extends CI_Model
+    class Wc_ideal extends CI_Model
     {
         function __construct()
         {

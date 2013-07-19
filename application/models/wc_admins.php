@@ -1,5 +1,5 @@
 <?php
-    class wc_admins extends CI_Model
+    class Wc_admins extends CI_Model
     {
         function __construct()
         {

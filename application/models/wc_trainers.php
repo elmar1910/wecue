@@ -1,5 +1,5 @@
 <?php
-    class wc_trainers extends CI_Model
+    class Wc_trainers extends CI_Model
     {
         function __construct()
         {
