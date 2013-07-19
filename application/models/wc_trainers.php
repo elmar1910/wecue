@@ -6,48 +6,6 @@
             parent::__construct();
         }
         
-        function login( $data = array() )
-        {
-            if( !$data )
-            {
-                $this -> log -> add_message('Er is iets misgegaan, probeer opnieuw');
-                return false;
-            }
-            
-            $this -> db -> where('email', $data['email']);
-            $result = $this -> db -> get();
-            
-            if( $result -> num_rows() )
-            {
-                $row = $result -> row();                
-                if( $row -> password != md5($data['password']) )
-                {
-                    $this -> log -> add_message('Verkeerd wachtwoord ingevoerd');
-                    return false;
-                }
-            }
-            else
-            {
-                $this -> log -> add_message('Geen gebruikers gevonden');
-                
-            }
-            
-            $session_data = array
-                (
-                    'user_id'   => $row -> id,
-                    'logged_in' => true
-                );
-            
-            $this -> session -> set_userdata( $session_data );
-            return true;
-        }
-        
-        function logout()
-        {
-            $this -> session -> unset_userdata();
-            return true;
-        }
-        
         function add_trainer( $data = array() )
         {
             if( !$data )
