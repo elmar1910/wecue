@@ -3,34 +3,65 @@
 class Test extends CI_Controller
 {
       function __construct()
-      {
+        {
             parent::__construct();
             $this -> load -> model('wc_views', 'views');
-            $this -> views -> check_ip( 1, $this -> input -> ip_address() );
-      }
+            $this -> load -> model('wc_trainers', 'trainers');
+        }
         
-      function index()
-      {
-          echo 'nothing to see here';
-          
-      }
-      
       function views()
       {
-          echo $this -> log -> show_messages();
-          echo $this -> views -> get_views(1) -> available_views;
+          $this -> views -> get_remaining_views(1);
       }
       
-      function add_views()
+      function add()
       {
-          $data = array(
-            'trainer_id' => 1,
-            'amount'     => 50
-          );
-          $this -> views -> add_views($data);
-          echo $this -> log -> show_messages();
-          echo $this -> views -> get_views(1) -> available_views;
+          $data = array
+            (
+                'email'             => 'elmar@scriptmotion.nl',
+                'password'          => md5('testwachtwoord'),
+                'name'              => 'Elmar Puts',
+                'address'           => 'Eikenlaan 23',
+                'city'              => 'Sint Odilienberg',
+                'phone'             => '06521777896',
+                'website'           => 'www.google.nl',
+                'photo'             => 'foto.jpg',
+                'description'       => '',
+                'short_description' => 'Blabla',
+                'salary'            => '7,50'
+            );
+          
+          $this -> wtainers -> add_trainer($data);
       }
       
+      function delete( $trainer_id )
+      {
+          $this -> trainers -> delete_trainer($trainer_id);
+      }
+      
+      function get( $trainer_id )
+      {
+          $result = $this -> trainers -> get_trainer($trainer_id);
+          echo '<pre>';
+          print_r($result);
+          echo '</pre>';
+      }
+      
+      function get_all()
+      {
+          $search = array
+            (
+                'page'  => 0,
+                'limit' => 25,
+                //'like'  => ''
+            );
+          $this -> trainers -> get_trainers($search);
+      }
+      
+      function pay()
+      {
+          $url = $this -> trainers -> pay_color(1, '0021');
+          redirect($url);
+      }
 }
 ?>

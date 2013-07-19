@@ -4,6 +4,7 @@
         function __construct()
         {
             parent::__construct();
+            $this -> load -> model('wc_ideal', 'ideal'); 
         }
         
         function add_trainer( $data = array() )
@@ -53,7 +54,7 @@
         
         function delete_trainer( $trainer_id = false )
         {
-            if( !trainer_id )
+            if( !$trainer_id )
             {
                 $this -> log -> add_message('Er is iets misgegaan, probeer opnieuw');
                 return false;
@@ -82,13 +83,21 @@
             if( !$data )
             {
                 $this -> log -> add_message('Er is iets misgegaan, probeer opnieuw');
-                
+                return false;
             }
             
+            $output = array();
             
+            $this -> db -> where('email', $data['email']);
+            if( !$this -> db -> update('trainers', $output) )
+            {
+                $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
+                return false;
+            }
+            return true;
         }
         
-        function get_single_trainer( $trainer_id = false )
+        function get_trainer( $trainer_id = false )
         {
             if( !$trainer_id )
             {
@@ -103,11 +112,66 @@
                 $this -> log -> add_message('Gebruiker niet gevonden');
                 return false;
             }
+            
+            $row = $result -> result();
+            return $row;
         }
         
-        function get_trainers( $page = false, $search = array() )
+        function get_trainers( $search = array() )
         {
+            if( !isset($search['like']) )
+            {
+                echo 'Geen zoekopdracht!';
+            }
             
+            $result = $this -> db -> get('trainers', $search['limit'], $search['page']*$search['limit']);
+            $output = $result -> result();
+            echo '<pre>';
+            print_r($output);
+            echo '</pre>';
+            return true;
+        }
+        
+        function pay_color( $trainer_id, $bank )
+        {
+            $data = array
+                    (
+                        'rtlo'          => 99323,
+                        'bank'          => $bank,
+                        'description'   => 'Profielkleur',
+                        'amount'        => 100,
+                        'returnurl'     => base_url('index.php/pay/paid')
+                    );
+            $trx_url = $this -> ideal -> start_payment($data);
+            return $trx_url;
+        }
+        
+        function pay_promotion( $trainer_id, $bank )
+        {
+            $data = array
+                    (
+                        'rtlo'          => 99323,
+                        'bank'          => $bank,
+                        'description'   => 'Promotie zoekresultaten',
+                        'amount'        => 200,
+                        'returnurl'     => base_url('index.php/pay/paid')
+                    );
+            $trx_url = $this -> ideal -> start_payment();
+            return $trx_url;
+        }
+        
+        function pay_frontpage( $trainer_id, $bank )
+        {
+            $data = array
+                    (
+                        'rtlo'          => 99323,
+                        'bank'          => $bank,
+                        'description'   => 'Promotie voorpagina',
+                        'amount'        => 1000,
+                        'returnurl'     => base_url('index.php/pay/paid')
+                    );
+            $trx_url = $this -> ideal -> start_payment();
+            return $trx_url;
         }
     }
 ?>
