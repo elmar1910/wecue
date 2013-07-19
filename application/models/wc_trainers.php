@@ -126,11 +126,25 @@
                 $this -> log -> add_message('Er is iets misgegaan, probeer opnieuw');
                 
             }
+            
+            
         }
         
         function get_single_trainer( $trainer_id = false )
         {
+            if( !$trainer_id )
+            {
+                $this -> log -> add_message('Er is iets misgegaan, probeer opnieuw');
+                return false;
+            }
             
+            $this -> db -> where('id', $trainer_id);
+            $result = $this -> db -> get('trainers');
+            if( !$result -> num_rows() )
+            {
+                $this -> log -> add_message('Gebruiker niet gevonden');
+                return false;
+            }
         }
         
         function get_trainers( $page = false, $search = array() )
