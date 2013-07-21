@@ -35,15 +35,43 @@
                 return false;
             }
             
-            //$user = $_SESSION['wc_login']['user_id'];
-            $trx_url = explode('|', $status[1]);
-            // Store transaction id in db
-            return $trx_url;
+            $output = explode('|', $status[1]);
+            return $output;
         }
         
         function check_payment( $trx_id )
         {
+            if( !$trx_id )
+            {
+                $this -> log -> add_message('Er is geen transactie-id meegegeven');
+                return false;
+            }
             
+            $data = array
+                    (
+                        'rtlo'      => 99323,
+                        'trxid'     => $trx_id,
+                        'once'      => 1,
+                        'test'      => 1
+                    );
+            
+            $response = $this ->send_request($data, $this -> check_url);
+            if( !$response )
+            {
+                echo 'Fout bij versturen<br />';
+                $this -> log -> add_message('Fout bij versturen van verzoek naar betaalserver');
+                return false;
+            }
+            
+            $status = explode(' ', $response);
+            if( $status[0] != '000000' )
+            {
+                echo 'Foutcode' . $status[0] . '<br />';
+                $this -> log -> add_message('Er is iets misgegaan; foutcode: ' . $status[0]);
+                return false;
+            }
+            
+            return true;
         }
         
         function send_request( $data = array(), $url = false )

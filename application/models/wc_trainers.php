@@ -78,7 +78,7 @@
             return true;
         }
         
-        function update_trainer( $data = array() )
+        function update_trainer( $trainer_id = false, $data = array() )
         {
             if( !$data )
             {
@@ -86,10 +86,8 @@
                 return false;
             }
             
-            $output = array();
-            
-            $this -> db -> where('email', $data['email']);
-            if( !$this -> db -> update('trainers', $output) )
+            $this -> db -> where('id', $trainer_id);
+            if( !$this -> db -> update('trainers', $data) )
             {
                 $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
                 return false;
@@ -119,9 +117,12 @@
         
         function get_trainers( $search = array() )
         {
-            if( !isset($search['like']) )
+            if( isset($search['like']) )
             {
-                echo 'Geen zoekopdracht!';
+                $this -> db -> like('name', $search['like']);
+                $this -> db -> or_like('email', $search['like']);
+                $this -> db -> or_like('address', $search['like']);
+                $this -> db -> or_like('city', $search['like']);
             }
             
             $result = $this -> db -> get('trainers', $search['limit'], $search['page']*$search['limit']);
@@ -143,7 +144,19 @@
                         'returnurl'     => base_url('index.php/pay/paid')
                     );
             $trx_url = $this -> ideal -> start_payment($data);
-            return $trx_url;
+            //Store trx_id in database
+            $data = array
+                    (
+                        'trx_id'    => $trx_url[0]
+                    );
+            
+            if( !$this -> update_trainer($trainer_id, $data) )
+            {
+                $this -> log -> add_message('Er is iets fout gegaan bij het updaten van de database');
+                return false;
+            }
+            
+            return $trx_url[1];
         }
         
         function pay_promotion( $trainer_id, $bank )

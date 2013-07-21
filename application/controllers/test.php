@@ -47,20 +47,20 @@ class Test extends CI_Controller
           echo '</pre>';
       }
       
-      function get_all()
+      function search( $search )
       {
-          $search = array
+          $data = array
             (
                 'page'  => 0,
                 'limit' => 25,
-                //'like'  => ''
+                'like'  => $search
             );
-          $this -> trainers -> get_trainers($search);
+          $this -> trainers -> get_trainers($data);
       }
       
       function pay()
       {
-          $url = $this -> trainers -> pay_color(1, '0021');
+          $url = $this -> trainers -> pay_color(1, '0021'); 
           redirect($url);
       }
 }
