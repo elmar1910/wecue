@@ -60,8 +60,17 @@ class Test extends CI_Controller
       
       function pay()
       {
-          $url = $this -> trainers -> pay_color(1, '0021'); 
+          $url = $this -> trainers -> pay_color(1, '0021');          
           redirect($url);
+      }
+      
+      function paid( $trx_id )
+      {
+          if( $this -> trainers -> set_paid($trx_id, 'product_promotion') )
+          {
+              $this -> log -> add_message('U heeft betaald!');
+          }
+          echo $this -> log -> show_messages();
       }
 }
 ?>

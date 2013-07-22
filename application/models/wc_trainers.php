@@ -78,7 +78,7 @@
             return true;
         }
         
-        function update_trainer( $trainer_id = false, $data = array() )
+        function update_trainer( $data = array() )
         {
             if( !$data )
             {
@@ -86,7 +86,7 @@
                 return false;
             }
             
-            $this -> db -> where('id', $trainer_id);
+            $this -> db -> where('id', $data['id']);
             if( !$this -> db -> update('trainers', $data) )
             {
                 $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
@@ -127,64 +127,54 @@
             
             $result = $this -> db -> get('trainers', $search['limit'], $search['page']*$search['limit']);
             $output = $result -> result();
-            echo '<pre>';
-            print_r($output);
-            echo '</pre>';
-            return true;
+            return $output;
         }
         
-        function pay_color( $trainer_id, $bank )
+        function pay_views( $data = array() )
         {
-            $data = array
-                    (
-                        'rtlo'          => 99323,
-                        'bank'          => $bank,
-                        'description'   => 'Profielkleur',
-                        'amount'        => 100,
-                        'returnurl'     => base_url('index.php/pay/paid')
-                    );
-            $trx_url = $this -> ideal -> start_payment($data);
-            //Store trx_id in database
-            $data = array
-                    (
-                        'trx_id'    => $trx_url[0]
-                    );
-            
-            if( !$this -> update_trainer($trainer_id, $data) )
+            if( !$data )
             {
-                $this -> log -> add_message('Er is iets fout gegaan bij het updaten van de database');
+                $this -> log -> add_message('Geen data meegegeven voor betaling. Probeer het opnieuw.');
                 return false;
             }
             
-            return $trx_url[1];
+            $output = array
+                    (
+                        'rtlo'          => $data['rtlo'],
+                        'bank'          => $data['bank'],
+                        'description'   => $data['description'],
+                        'amount'        => $data['amount'],
+                        'returnurl'     => 'http://localhost/wecue/ideal.php'
+                    );
+            
+            $response = $this -> ideal -> start_payment($output);
+            if( !$response )
+            {
+                return false;
+            }
+            
+            return $response;
         }
         
-        function pay_promotion( $trainer_id, $bank )
+        function set_paid( $trx_id = false, $product = false )
         {
+            if( !$trx_id || !$product )
+            {
+                $this -> log -> add_message('Geen transactie-id of product meegegeven');
+                return false;
+            }
+            
             $data = array
-                    (
-                        'rtlo'          => 99323,
-                        'bank'          => $bank,
-                        'description'   => 'Promotie zoekresultaten',
-                        'amount'        => 200,
-                        'returnurl'     => base_url('index.php/pay/paid')
-                    );
-            $trx_url = $this -> ideal -> start_payment();
-            return $trx_url;
-        }
-        
-        function pay_frontpage( $trainer_id, $bank )
-        {
-            $data = array
-                    (
-                        'rtlo'          => 99323,
-                        'bank'          => $bank,
-                        'description'   => 'Promotie voorpagina',
-                        'amount'        => 1000,
-                        'returnurl'     => base_url('index.php/pay/paid')
-                    );
-            $trx_url = $this -> ideal -> start_payment();
-            return $trx_url;
+                (
+                    $product     => date('Y-m-d H:i:s')
+                );
+            
+            $this -> db -> where('trx_id', $trx_id);
+            if( !$this -> db -> update('trainers', $data) )
+            {
+                $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
+                return false;
+            }
         }
     }
 ?>

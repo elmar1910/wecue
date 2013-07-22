@@ -27,7 +27,7 @@ class User extends CI_Model{
 		}
 
 		$this -> db -> where('email', $data['email']);
-		$result = $this -> db -> get( 'users' );
+		$result = $this -> db -> get('trainers');
 
 		if( $result -> num_rows() )
 		{
@@ -48,7 +48,10 @@ class User extends CI_Model{
 			'userid'	=> $db_result -> id,
 		);
 
-		unset($_SESSION[$this -> session_name]);
+                if( isset($_SESSION) )
+                {
+                    unset($_SESSION[$this -> session_name]);
+                }
 		$_SESSION[$this -> session_name] = $session_data;
 
 		return true;
@@ -66,7 +69,7 @@ class User extends CI_Model{
 				define( $key, $data[$key] );
 
 			$this -> db -> where('id', userid);
-			$response = $this -> db -> get('users');
+			$response = $this -> db -> get('trainers');
 
 			if( !$response -> num_rows() )
 			{
@@ -81,9 +84,6 @@ class User extends CI_Model{
 				$this -> log -> add_message('U heeft niet de juist bevoegdheden om hier te komen!', 'info');
 				redirect( $redirect );
 			}
-
-			$this -> db -> where('id', $this -> user -> id);
-			$this -> db -> update('users', array('online' => time()));
 
 			return true;
 		}

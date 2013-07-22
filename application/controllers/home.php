@@ -4,11 +4,20 @@
         function __construct()
         {
             parent::__construct();
+            $this -> load -> model('wc_trainers', 'trainers');
         }
         
         function index()
         {
-            echo 'Homepagina!';
+            $search = array
+                    (
+                        'limit'     => 25,
+                        'page'      => 0
+                    );
+            
+            echo '<pre>';
+            print_r($this -> trainers -> get_trainers($search));
+            echo '</pre>';
         }
     }
 ?>
