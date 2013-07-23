@@ -87,6 +87,14 @@
             }
             
             $this -> db -> where('id', $data['id']);
+            $result = $this -> db -> get('trainers');
+            if( !$result -> num_rows() )
+            {
+                $this -> log -> add_message('Trainer niet gevonden, probeer opnieuw');
+                return false;
+            }
+            
+            $this -> db -> where('id', $data['id']);
             if( !$this -> db -> update('trainers', $data) )
             {
                 $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
