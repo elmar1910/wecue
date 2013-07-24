@@ -15,7 +15,7 @@
             }
             
             $this -> db -> where('category_name', $cat_name);
-            $result = $this -> db -> get('cateogories');
+            $result = $this -> db -> get('categories');
             if( $result -> num_rows() )
             {
                 $this -> log -> add_message('Categorie bestaat al. Kies een andere naam.');
@@ -45,7 +45,7 @@
             }
             
             $this -> db -> where('id', $cat_id);
-            $result -> db -> get('categories');
+            $result = $this -> db -> get('categories');
             if( !$result -> num_rows() )
             {
                 $this -> log -> add_message('Categorie bestaat niet, probeer opnieuw');
@@ -62,7 +62,7 @@
             return true;
         }
         
-        function change_category( $data = array() )
+        function update_category( $data = array() )
         {
             if( !$data )
             {
@@ -113,7 +113,7 @@
             
             //Kijken of bewuste categorie al aan trainer is toegewezen
             $this -> db -> where('trainer_id', $trainer_id);
-            $result -> db -> get('trainer_categories');
+            $result = $this -> db -> get('trainer_categories');
             $row = $result -> row();
             if( $row -> category_id == $category_id )
             {
@@ -153,8 +153,11 @@
             }
             
             $cat_found = false;
-            foreach( $result -> row() as $row )
+            foreach( $result -> result() as $row )
             {
+                echo '<pre>';
+                print_r($row);
+                echo '</pre>';
                 if( $row -> category_id == $category_id )
                 {
                     $cat_found = true;

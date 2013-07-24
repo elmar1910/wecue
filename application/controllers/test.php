@@ -7,36 +7,12 @@ class Test extends CI_Controller
             parent::__construct();
             $this -> load -> model('wc_views', 'views');
             $this -> load -> model('wc_trainers', 'trainers');
+            $this -> load -> model('wc_categories', 'categories');
         }
         
-      function views()
+      function index()
       {
-          $this -> views -> get_remaining_views(1);
-      }
-      
-      function add()
-      {
-          $data = array
-            (
-                'email'             => 'elmar@scriptmotion.nl',
-                'password'          => md5('testwachtwoord'),
-                'name'              => 'Elmar Puts',
-                'address'           => 'Eikenlaan 23',
-                'city'              => 'Sint Odilienberg',
-                'phone'             => '06521777896',
-                'website'           => 'www.google.nl',
-                'photo'             => 'foto.jpg',
-                'description'       => '',
-                'short_description' => 'Blabla',
-                'salary'            => '7,50'
-            );
-          
-          $this -> wtainers -> add_trainer($data);
-      }
-      
-      function delete( $trainer_id )
-      {
-          $this -> trainers -> delete_trainer($trainer_id);
+	  $this -> template -> load('index', 'content_index');
       }
       
       function get( $trainer_id )

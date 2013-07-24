@@ -5,19 +5,24 @@
         {
             parent::__construct();
             $this -> load -> model('wc_trainers', 'trainers');
+	    session_start();
+	    if( $this -> user -> get_login_data() )
+	    {
+		echo 'U bent ingelogd!';
+	    }
+	    echo '<pre>';
+	    print_r($_SESSION);
+	    echo '</pre>';
         }
         
         function index()
         {
-            $search = array
-                    (
-                        'limit'     => 25,
-                        'page'      => 0
-                    );
-            
-            echo '<pre>';
-            print_r($this -> trainers -> get_trainers($search));
-            echo '</pre>';
+            $this -> template -> load('index', 'content_index');
         }
+	
+	function logout()
+	{
+	    $this -> user -> kill_session();
+	}
     }
 ?>
