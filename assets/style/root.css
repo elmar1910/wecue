@@ -179,7 +179,7 @@ a:hover{ color:#333;}
 	padding:15px 0 0 9px;}
 #searchbox .input{
 	background:url(../img/searchbox.png) no-repeat;
-	width:131px;
+	/*width:131px;*/
 	border:none;
 	font:13px Arial, Helvetica, sans-serif;
 	color:#999;

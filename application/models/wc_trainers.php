@@ -23,7 +23,7 @@
                 return false;
             }
             
-            $output = array 
+            $sql = array 
                 (
                     'email'             => $data['email'],
                     'password'          => md5($data['password']),
@@ -36,14 +36,11 @@
                     'description'       => $data['description'],
                     'short_description' => $data['short_description'],
                     'salary'            => $data['salary'],
-                    'wecue'             => '0',
-                    'total_views'       => '0',
                     'available_views'   => '5',
-                    'trx_id'            => '',
                     'level'             => '10'
                 );
             
-            if( !$this -> db -> insert('trainers', $output ) )
+            if( !$this -> db -> insert('trainers', $sql ) )
             {
                 $this -> log -> add_message('Fout bij updaten database, probeer opnieuw');
                 return false;
@@ -85,8 +82,25 @@
                 $this -> log -> add_message('Er is iets misgegaan, probeer opnieuw');
                 return false;
             }
+	    
+	    $sql = array
+		    (
+			'id'		    => $data['id'],
+			'email'		    => $data['email'],
+			'password'	    => md5($data['password']),
+			'name'		    => $data['name'],
+			'address'	    => $data['address'],
+			'city'		    => $data['city'],
+			'phone'		    => $data['phone'],
+			'website'	    => $data['website'],
+			'photo'		    => $data['photo'],
+			'description'       => $data['description'],
+			'short_description' => $data['short_description'],
+			'salary'            => $data['salary'],
+			'available_views'   => $data['available_views']
+		    );
             
-            $this -> db -> where('id', $data['id']);
+            $this -> db -> where('id', $sql['id']);
             $result = $this -> db -> get('trainers');
             if( !$result -> num_rows() )
             {
@@ -94,12 +108,13 @@
                 return false;
             }
             
-            $this -> db -> where('id', $data['id']);
-            if( !$this -> db -> update('trainers', $data) )
+            $this -> db -> where('id', $sql['id']);
+            if( !$this -> db -> update('trainers', $sql) )
             {
                 $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
                 return false;
             }
+	    
             return true;
         }
         
@@ -119,7 +134,7 @@
                 return false;
             }
             
-            $row = $result -> result();
+            $row = $result -> row();
             return $row;
         }
         
@@ -142,17 +157,15 @@
         {
             if( !$data )
             {
-                $this -> log -> add_message('Geen data meegegeven voor betaling. Probeer het opnieuw.');
+                $this -> log -> add_message('Geen data meegegeven voor betaling. Probeer opnieuw.');
                 return false;
             }
             
             $output = array
                     (
-                        'rtlo'          => $data['rtlo'],
                         'bank'          => $data['bank'],
                         'description'   => $data['description'],
                         'amount'        => $data['amount'],
-                        'returnurl'     => 'http://localhost/wecue/ideal.php'
                     );
             
             $response = $this -> ideal -> start_payment($output);

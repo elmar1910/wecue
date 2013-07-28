@@ -27,7 +27,7 @@ class User extends CI_Model{
 		}
 
 		$this -> db -> where('email', $data['email']);
-		$result = $this -> db -> get('trainers');
+		$result = $this -> db -> get('users');
 
 		if( $result -> num_rows() )
 		{
@@ -46,6 +46,7 @@ class User extends CI_Model{
 		$session_data = array(
 			'email' 	=> $db_result -> email,
 			'userid'	=> $db_result -> id,
+			'name'		=> $db_result -> name
 		);
 
                 if( isset($_SESSION) )

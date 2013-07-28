@@ -73,12 +73,12 @@
     
     
     	<!-- logo -->
-    	<div class="logo">	<a href="<?php echo base_url(); ?>index.html"><img src="<?php echo base_url(); ?>assets/img/logo.png" width="112" height="35" alt="logo"/></a>	</div>
+    	<div class="logo">	<a href="<?php echo base_url(); ?>home"><img src="<?php echo base_url(); ?>assets/img/logo.png" width="112" height="35" alt="logo"/></a>	</div>
         
         
         <!-- notifications -->
         <div id="notifications">
-        	<a href="<?php echo base_url(); ?>index.html" class="qbutton-left"><img src="<?php echo base_url(); ?>assets/img/icons/header/dashboard.png" width="16" height="15" alt="dashboard" /></a>
+        	<a href="<?php echo base_url(); ?>home" class="qbutton-left"><img src="<?php echo base_url(); ?>assets/img/icons/header/dashboard.png" width="16" height="15" alt="dashboard" /></a>
         	<a href="<?php echo base_url(); ?>#" class="qbutton-normal tips"><img src="<?php echo base_url(); ?>assets/img/icons/header/message.png" width="19" height="13" alt="message" /> <span class="qballon">23</span> </a>
         	<a href="<?php echo base_url(); ?>#" class="qbutton-right"><img src="<?php echo base_url(); ?>assets/img/icons/header/support.png" width="19" height="13" alt="support" /> <span class="qballon">8</span> </a>
           <div class="clear"></div>
@@ -96,13 +96,13 @@
         <!-- profile box -->
         <div id="profilebox">
         	<a href="<?php echo base_url(); ?>#" class="display">
-            	<img src="<?php echo base_url(); ?>assets/img/simple-profile-img.jpg" width="33" height="33" alt="profile"/>	<b>Logged in as</b>	<span>Administrator</span>
+            	<img src="<?php echo base_url(); ?>assets/img/simple-profile-img.jpg" width="33" height="33" alt="profile"/>	<b>Logged in as</b>	<span><?php $result = $this -> user -> get_login_data(); echo $result['name']; ?></span>
             </a>
             
             <div class="profilemenu">
             	<ul>
                 	<li><a href="<?php echo base_url(); ?>#">Account Settings</a></li>
-                	<li><a href="<?php echo base_url(); ?>#">Logout</a></li>
+                	<li><a href="<?php echo base_url(); ?>admin/logout/send">Logout</a></li>
                 </ul>
             </div>
             
@@ -144,42 +144,8 @@
             <!-- start sidemenu -->
             <div id="sidemenu">
             	<ul>
-                	<li class="active"><a href="index.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/laptop.png" width="16" height="16" alt="icon"/>Dashboard</a></li>
-                    <li><a href="form-elements.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/copy.png" width="16" height="16" alt="icon"/>Form Elements</a></li>
-                    <li><a href="table-chart.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/user.png" width="16" height="16" alt="icon"/>Table &amp; Chart</a></li>
-                	<li><a href="interface-elements.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/lock.png" width="16" height="16" alt="icon"/>Interface Elements</a></li>
-                    <li><a href="typography.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/file_edit.png" width="16" height="16" alt="icon"/>Typography	</a></li>
-                    <li><a href="gallery.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/image.png" width="16" height="16" alt="icon"/>Gallery &amp; Media 	<span class="ballon">9</span>	</a></li>
-                    <li><a href="widgets.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/star.png" width="16" height="16" alt="icon"/>Widgets</a></li>
-                    
-                    <!-- start submenu with icon -->
-                    <li class="subtitle">
-                    	<a class="action tips-right" href="#" title="Submenu with icon"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/mail.png" width="16" height="16" alt="icon"/>Submenu<img src="<?php echo base_url(); ?>assets/img/arrow-down.png" width="7" height="4" alt="arrow" class="arrow" /></a>
-                    	<ul class="submenu">
-                        <li><a href="#"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/magnify.png" width="16" height="16" alt="icon"/>Search File</a></li>
-                        <li><a href="#"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/print.png" width="16" height="16" alt="icon"/>New Files	<span class="ballon">693</span>	</a></li>
-                        <li><a href="#"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/trash.png" width="16" height="16" alt="icon"/>Others	<span class="ballon">4</span>	</a></li>
-                        </ul>
-                    </li>
-                    <!-- end submenu with icon -->
-
-                    <li><a href="error-pages.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/comment.png" width="16" height="16" alt="icon"/>Error Pages</a></li>
-                    <li><a href="buttons-icons.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/arrow_down.png" width="16" height="16" alt="icon"/>Button &amp; Icons</a></li>
-                    <li><a href="grid-styles.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/file.png" width="16" height="16" alt="icon"/>Grid Styles	<span class="ballon">67</span>	</a></li>
-                    <li><a href="alert-dialog-boxes.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/attach.png" width="16" height="16" alt="icon"/>Alert &amp; Dialog Boxes</a></li>
-                    <li><a href="calendar.html"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/calendar.png" width="16" height="16" alt="icon"/>Calendar</a></li>
-                    
-                    <!-- start submenu without icon -->
-                    <li class="subtitle">
-                    	<a class="action" href="#"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/download.png" width="16" height="16" alt="icon"/>Submenu Text<img src="<?php echo base_url(); ?>assets/img/arrow-down.png" width="7" height="4" alt="arrow" class="arrow" /> </a>
-                    	<ul class="submenu">
-                        <li><a href="#">Search File</a></li>
-                        <li><a href="#">New Files	<span class="ballon">693</span>	</a></li>
-                        <li><a href="#">Others	<span class="ballon">4</span>	</a></li>
-                        </ul>
-                    </li>
-                    <!-- end submenu without icon -->
-                    
+		    <li class="active"><a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/laptop.png" width="16" height="16" alt="icon"/>Dashboard</a></li>
+		    <li><a href="<?php echo base_url(); ?>trainers"><img src="<?php echo base_url(); ?>assets/img/icons/sidemenu/user.png" width="16" height="16" alt="icon"/>Trainers</a></li>
                 </ul>
             </div>
             <!-- end sidemenu -->
@@ -588,117 +554,7 @@
                         
                         
                         
-                        <!-- START TABLE -->
-                        <div class="simplebox grid740">
                         
-                        	<div class="titleh"><h3>Data Table</h3>
-                            <div class="shortcuts-icons">
-                            	<a class="shortcut tips" href="#" title="Info About This Widget"><img src="<?php echo base_url(); ?>assets/img/icons/shortcut/question.png" width="25" height="25" alt="icon" /></a>
-                                <a class="shortcut tips" href="#" title="Add New Item"><img src="<?php echo base_url(); ?>assets/img/icons/shortcut/plus.png" width="25" height="25" alt="icon" /></a>
-                                <a class="shortcut tips" href="#" title="Search"><img src="<?php echo base_url(); ?>assets/img/icons/shortcut/search.png" width="25" height="25" alt="icon" /></a>
-                                <a class="shortcut tips" href="#" title="Refresh Data"><img src="<?php echo base_url(); ?>assets/img/icons/shortcut/refresh.png" width="25" height="25" alt="icon" /></a>
-                            </div>
-                            </div>
-                            
-                            	
-                                <table id="myTable" class="tablesorter"> 
-                                	<thead> 
-                                		<tr> 
-                                			<th>Last Name</th> 
-                                			<th>First Name</th> 
-                                			<th>Email</th>
-                                			<th>Due</th> 
-                                			<th>Web Site</th> 
-                                		</tr> 
-                                	</thead> 
-                                    
-                                    <tbody> 
-                                    	<tr> 
-                                    		<td>Smith</td> 
-                                    		<td>John</td> 
-                                    		<td>jsmith@gmail.com</td> 
-                                    		<td>$50.00</td> 
-                                    		<td>http://www.jsmith.com</td> 
-                                    	</tr> 
-                                    
-                                    	<tr> 
-                                    		<td>Bach</td> 
-                                        	<td>Frank</td> 
-                                        	<td>fbach@yahoo.com</td> 
-                                        	<td>$545.00</td> 
-                                        	<td>http://www.frank.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Doe</td> 
-                                        	<td>Jason</td> 
-                                        	<td>jdoe@hotmail.com</td> 
-                                        	<td>$12.00</td> 
-                                        	<td>http://www.jdoe.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Conway</td> 
-                                        	<td>Tim</td> 
-                                        	<td>tconway@earthlink.net</td> 
-                                        	<td>$150.00</td> 
-                                        	<td>http://www.timconway.com</td> 
-                                        </tr> 
-                                    
-                                    	<tr> 
-                                    		<td>Burak</td> 
-                                        	<td>Vanli</td> 
-                                        	<td>bshank@gmail.com</td> 
-                                        	<td>$533.00</td> 
-                                        	<td>http://www.frank.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Doe</td> 
-                                        	<td>Jason</td> 
-                                        	<td>shekc@mail.com</td> 
-                                        	<td>$30.00</td> 
-                                        	<td>http://www.jdoe.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Derp</td> 
-                                        	<td>Derpie</td> 
-                                        	<td>derp@earthlink.net</td> 
-                                        	<td>$390.00</td> 
-                                        	<td>http://www.timconway.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Matt</td> 
-                                        	<td>Daeson</td> 
-                                        	<td>immat@earthlink.net</td> 
-                                        	<td>$120.00</td> 
-                                        	<td>http://www.timconway.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Conway</td> 
-                                        	<td>Tim</td> 
-                                        	<td>tconway@earthlink.net</td> 
-                                        	<td>$20.00</td> 
-                                        	<td>http://www.timconway.com</td> 
-                                        </tr> 
-                                        
-                                        <tr> 
-                                        	<td>Conway</td> 
-                                        	<td>Tim</td> 
-                                        	<td>tconway@earthlink.net</td> 
-                                        	<td>$10.00</td> 
-                                        	<td>http://www.timconway.com</td> 
-                                        </tr> 
-                                        
-                                    </tbody> 
-                                </table>
-                            
-                            
-                        </div>
-                        <!-- END TABLE -->
                         
                         
                         
