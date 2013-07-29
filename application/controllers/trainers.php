@@ -4,27 +4,25 @@
 	function __construct()
 	{
 	    parent::__construct();
-	    session_start();
-	    if( $this -> user -> get_login_data() )
-	    {
-		$this -> load -> model('wc_trainers', 'trainers');
-		$search = array
-			(
-			    'limit'	=> 25,
-			    'page'	=> 0
-			);
-		$result = $this -> trainers -> get_trainers($search);
-		$data['trainers'] = $result;
-		$this -> template -> load('trainers', 'trainers_table', $data);
-	    }
-	    else
-	    {
-		$this -> load -> view('login');
-	    }
+	    $this -> load -> model('wc_trainers', 'trainers');
+	    
 	}
 	
 	function index()
 	{
+	    $search = array
+		    (
+			'limit'	=> 25,
+			'page'	=> 0
+		    );
+	    $result = $this -> trainers -> get_trainers($search);
+	    if( $result )
+	    {
+		$data['trainers'] = $result;		
+	    }
+	    
+	    $data['active'] = 'trainers';
+	    $this -> template -> load('template', 'trainers_table', $data);
 	}
     }
 ?>

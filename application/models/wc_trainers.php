@@ -126,16 +126,27 @@
                 return false;
             }
             
-            $this -> db -> where('id', $trainer_id);
-            $result = $this -> db -> get('trainers');
+            $this -> db -> where('trainers.id', $trainer_id);
+	    $this -> db -> from('trainers');
+	    $this -> db -> join('trainer_categories', 'trainer_categories.trainer_id = trainers.id');
+	    $this -> db -> join('categories', 'categories.id = trainer_categories.category_id');
+            $result = $this -> db -> get();
             if( !$result -> num_rows() )
             {
                 $this -> log -> add_message('Gebruiker niet gevonden');
                 return false;
             }
-            
-            $row = $result -> row();
-            return $row;
+	    
+	    foreach( $result -> result() as $row )
+	    {
+		$output['categories'][] = $row -> category_name;
+		$output['trainer']	= $row;
+	    }
+	    
+	    echo '<pre>';
+	    print_r($output);
+	    echo '</pre>';
+            return $output;
         }
         
         function get_trainers( $search = array() )
@@ -149,6 +160,12 @@
             }
             
             $result = $this -> db -> get('trainers', $search['limit'], $search['page']*$search['limit']);
+	    if( !$result -> num_rows() )
+	    {
+		$this -> log -> add_message('Geen trainers gevonden');
+		return false;
+	    }
+	    
             $output = $result -> result();
             return $output;
         }
@@ -177,7 +194,7 @@
             return $response;
         }
         
-        function set_paid( $trx_id = false, $product = false )
+        function set_paid( $trx_id = false, $product = false, $amount = false )
         {
             if( !$trx_id || !$product )
             {
@@ -196,6 +213,23 @@
                 $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
                 return false;
             }
+	    
+	    $this -> db -> where('trx_id', $trx_id);
+	    $result = $this -> db -> get('trainers');
+	    $row = $result -> row();
+	    
+	    $sql = array
+		    (
+			'user_id'   => $row -> id,
+			'product'   => $product,
+			'amount'    => $amount
+		    );
+	    
+	    if( !$this -> db -> insert('payments', $sql))
+	    {
+		$this -> log -> add_message('Fout bij updaten database');
+		return false;
+	    }
         }
     }
 ?>
