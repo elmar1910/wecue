@@ -36,5 +36,10 @@
 		}
 	    }
 	}
+	
+	function convert( $amount )
+	{
+	    echo $this -> format -> cents_to_amount($amount);
+	}
     }
 ?>

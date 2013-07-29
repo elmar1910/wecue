@@ -39,7 +39,7 @@
                 redirect('trainers');
             }
             
-            $this -> template -> load('trainers', 'trainer_profile', $data);
+            $this -> template -> load('template', 'trainer_profile', $data);
         }
     }
 ?>

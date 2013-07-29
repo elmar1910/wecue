@@ -33,7 +33,7 @@
 						    echo '<td><a href=' . base_url() . 'trainers/profile/' . $trainer -> id . '>' . $trainer -> name . '</a></td>';
 						    echo '<td>' . $trainer -> email . '</td>';
 						    echo '<td>' . $trainer -> city . '</td>';
-						    echo '<td>' . $trainer -> salary . '</td>';
+						    echo '<td>' . $this -> format -> cents_to_amount($trainer -> salary) . '</td>';
 						    echo '<td>' . $trainer -> short_description . '</td>';
 						    echo '<td>' . $trainer -> website . '</td>';
 						    echo '</tr>';
