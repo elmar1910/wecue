@@ -25,16 +25,19 @@
                                     
                                     <tbody> 			
 					<?php
-					    foreach( $trainers as $trainer )
+					    if( $trainers )
 					    {
-						echo '<tr>';
-						echo '<td>' . $trainer -> name . '</td>';
-						echo '<td>' . $trainer -> email . '</td>';
-						echo '<td>' . $trainer -> city . '</td>';
-						echo '<td>' . $trainer -> salary . '</td>';
-						echo '<td>' . $trainer -> short_description . '</td>';
-						echo '<td>' . $trainer -> website . '</td>';
-						echo '</tr>';
+						foreach( $trainers as $trainer )
+						{
+						    echo '<tr>';
+						    echo '<td>' . $trainer -> name . '</td>';
+						    echo '<td>' . $trainer -> email . '</td>';
+						    echo '<td>' . $trainer -> city . '</td>';
+						    echo '<td>' . $trainer -> salary . '</td>';
+						    echo '<td>' . $trainer -> short_description . '</td>';
+						    echo '<td>' . $trainer -> website . '</td>';
+						    echo '</tr>';
+						}
 					    }
 					?>
 					
