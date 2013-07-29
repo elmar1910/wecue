@@ -30,7 +30,7 @@
 						foreach( $trainers as $trainer )
 						{
 						    echo '<tr>';
-						    echo '<td>' . $trainer -> name . '</td>';
+						    echo '<td><a href=' . base_url() . 'trainers/profile/' . $trainer -> id . '>' . $trainer -> name . '</a></td>';
 						    echo '<td>' . $trainer -> email . '</td>';
 						    echo '<td>' . $trainer -> city . '</td>';
 						    echo '<td>' . $trainer -> salary . '</td>';

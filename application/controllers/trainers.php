@@ -5,7 +5,7 @@
 	{
 	    parent::__construct();
 	    $this -> load -> model('wc_trainers', 'trainers');
-	    
+	    $this -> load -> model('wc_views', 'views');
 	}
 	
 	function index()
@@ -24,5 +24,22 @@
 	    $data['active'] = 'trainers';
 	    $this -> template -> load('template', 'trainers_table', $data);
 	}
+	
+	 function profile( $trainer = null )
+        {
+            $result = $this -> trainers -> get_trainer( $trainer );
+            if( !$result )
+            {
+                $this -> log -> add('er is een fout opgetreden.');
+                redirect('trainers');
+            }
+            $data['trainer'] = $result;
+            if( !$this -> views -> check_ip($trainer, $this->input->ip_address()) )
+            {
+                redirect('trainers');
+            }
+            
+            $this -> template -> load('trainers', 'trainer_profile', $data);
+        }
     }
 ?>
