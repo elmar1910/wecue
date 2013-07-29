@@ -143,9 +143,6 @@
 		$output['trainer']	= $row;
 	    }
 	    
-	    echo '<pre>';
-	    print_r($output);
-	    echo '</pre>';
             return $output;
         }
         

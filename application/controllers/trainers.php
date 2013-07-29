@@ -38,7 +38,6 @@
             {
                 redirect('trainers');
             }
-            
             $this -> template -> load('template', 'trainer_profile', $data);
         }
     }
