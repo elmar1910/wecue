@@ -87,35 +87,104 @@
             return true;
         }
         
-        function update_trainer_categories( $user_id = false, $categories = false )
-	{
-	    if( !$categories || !$user_id )
-	    {
-		$this -> log -> add_message('Geen data meegegeven');
-		return false;
-	    }
-	    
-	    if( !$this ->remove_trainer_categories($user_id) ) return false;
-	    
-	    if( !$this -> db -> insert_batch('trainer_categories', $categories) )
-	    {
-		$this -> log -> add_message('Fout bij updaten database, probeer opnieuw');
-		return false;
-	    }
-	    
-	    return true;
-	}
-	
-	function remove_trainer_categories( $user_id = false )
-	{
-	    $this -> db -> where('trainer_id', $user_id);
-	    if( !$this -> db -> delete('trainer_categories') )
-	    {
-		$this -> log -> add_message('Fout bij verwijderen records uit database, probeer opnieuw');
-		return false;
-	    }
-	    
-	    return true;
-	}
+        function assign_category( $trainer_id = false, $category_id = false )
+        {
+            if( !$trainer_id || !$category_id )
+            {
+                $this -> log -> add_message('Geen id opgegeven');
+                return false;
+            }
+            
+            $this -> db -> where('id', $trainer_id);
+            $result = $this -> db -> get('trainers');
+            if( !$result -> num_rows() )
+            {
+                $this -> log -> add_message('Ongeldig trainer-id opgegeven, probeer opnieuw');
+                return false;
+            }
+            
+            $this -> db -> where('id', $category_id);
+            $result = $this -> db -> get('categories');
+            if( !$result -> num_rows() )
+            {
+                $this -> log -> add_message('Ongeldig categorie-id opgegeven, probeer opnieuw');
+                return false;
+            }
+            
+            //Kijken of bewuste categorie al aan trainer is toegewezen
+            $this -> db -> where('trainer_id', $trainer_id);
+            $result = $this -> db -> get('trainer_categories');
+            $row = $result -> row();
+            if( $row -> category_id == $category_id )
+            {
+                $this -> log -> add_message('Categorie is reeds aan deze trainer toegewezen!');
+                return false;
+            }
+            
+            $output = array
+                    (
+                        'trainer_id'    => $trainer_id,
+                        'category_id'   => $category_id
+                    );
+            
+            if( !$this -> db -> insert('trainer_categories', $output) )
+            {
+                $this -> log -> add_message('Er is een fout opgetreden bij het updaten van de database');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function unassign_category( $trainer_id = false, $category_id = false )
+        {
+            if( !$trainer_id || !$category_id )
+            {
+                $this -> log -> add_message('Geen id opgegeven');
+                return false;
+            }
+            
+            $this -> db -> where('trainer_id', $trainer_id);
+            $result = $this -> db -> get('trainer_categories');
+            if( !$result -> num_rows() )
+            {
+                $this -> log -> add_message('Ongeldig trainer-id opgegeven, probeer opnieuw');
+                return false;
+            }
+            
+            $cat_found = false;
+            foreach( $result -> result() as $row )
+            {
+                echo '<pre>';
+                print_r($row);
+                echo '</pre>';
+                if( $row -> category_id == $category_id )
+                {
+                    $cat_found = true;
+                    break;
+                }
+            }
+            
+            if( !$cat_found )
+            {
+                $this -> log -> add_message('Categorie niet bij deze trainer aangetroffen');
+                return false;
+            }
+            
+            $where = array
+                    (
+                        'trainer_id'    => $trainer_id,
+                        'category_id'   => $category_id
+                    );
+            
+            $this -> db -> where($where);
+            if( !$this -> db -> delete('trainer_categories') )
+            {
+                $this -> log -> add_message('Fout bij verwijderen categorie bij deze trainer');
+                return false;
+            }
+            
+            return true;
+        }
     }
 ?>

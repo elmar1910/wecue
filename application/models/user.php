@@ -46,8 +46,7 @@ class User extends CI_Model{
 		$session_data = array(
 			'email' 	=> $db_result -> email,
 			'userid'	=> $db_result -> id,
-			'name'		=> $db_result -> name,
-			'level'		=> $db_result -> level
+			'name'		=> $db_result -> name
 		);
 
                 if( isset($_SESSION) )
@@ -61,7 +60,7 @@ class User extends CI_Model{
 
 	function access( $level = 1, $die = true, $redirect = false)
 	{
-		$redirect = 'home/login';
+		$redirect = 'login/index';
 
 		$data = $this -> get_login_data();
 
@@ -95,7 +94,7 @@ class User extends CI_Model{
 			if( $redirect )
 				$_SESSION['redirect_to'] = $redirect;
 
-			redirect('home/login');
+			redirect('login');
 		}
 	}
 
