@@ -118,6 +118,30 @@
             return true;
         }
         
+        //alternatief, bij de oude methode moet je alle gegevens opgeven. Bij deze alleen wat je wil veranderen.
+         function update_trainer2( $data = array() )
+         {
+            if( !$data )
+            {
+                $this -> log -> add_message('er zijn geen gegevens opgegeven');
+                return false;
+            }
+            
+            $this -> db -> where('id', $data['id']);
+            $result = $this -> db -> get('trainers');
+            
+            if( !$result ) return false;
+            
+            $this -> db -> where('id', $data['id']);
+            if( !$this -> db -> update('trainers', $data) )
+            {
+                $this -> log -> add_message('Er is iets misgegaan bij het updaten van de database');
+                return false;
+            }
+	    
+            return true;
+        }
+        
         function get_trainer( $trainer_id = false )
         {
             if( !$trainer_id )

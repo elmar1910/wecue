@@ -25,7 +25,7 @@
                 $this -> log -> add_message('Fout bij versturen van verzoek naar betaalserver');
                 return false;
             }
-            
+           
             $status = explode(' ', $response);
             if( $status[0] != '000000')
             {
@@ -50,7 +50,7 @@
                         'rtlo'      => $this -> rtlo,
                         'trxid'     => $trx_id,
                         'once'      => 1,
-                        'test'      => 0
+                        'test'      => 1
                     );
             
             $response = $this -> send_request($data, $this -> check_url);
@@ -72,6 +72,7 @@
         
         function send_request( $data = array(), $url = false )
         {
+            
             $curl = curl_init();
             
             curl_setopt($curl, CURLOPT_POST, true);
